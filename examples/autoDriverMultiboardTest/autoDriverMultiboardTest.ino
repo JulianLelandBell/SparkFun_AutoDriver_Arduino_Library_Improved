@@ -1,8 +1,8 @@
 /* autoDriverMultiboardTest
- *  Julian Bell, UPS Advanced Technology Group
+ *  Julian Bell
  *  2022-08-31
  *  
- *  Script that implements multiple Sparkfun AutoDriver stepper boards, l
+ *  Script that demonstrates simultaneous implementation of multiple Sparkfun AutoDriver stepper drivers.
  */
 
 // Includes
@@ -69,29 +69,7 @@ void setup() {
   Serial.println(conf, HEX);
   
   // Set operational parameters for Board A
-  Serial.print("Configuring Board A.");
-  boardA.configSyncPin(BUSY_PIN, 0);// BUSY pin low during operations;
-                                    //  second paramter ignored.
-  boardA.configStepMode(STEP_FS_64);   // 0 microsteps per step
-  boardA.setMaxSpeed(750);        // 10000 steps/s max
-  boardA.setFullSpeed(500);       // microstep below 10000 steps/s
-  boardA.setAcc(5000);             // accelerate at 10000 steps/s/s
-  boardA.setDec(5000);
-  Serial.print(".");
-  boardA.setSlewRate(SR_530V_us);   // Upping the edge speed increases torque.
-  boardA.setOCThreshold(OC_3750mA);  // OC threshold 3750mA
-  boardA.setPWMFreq(PWM_DIV_2, PWM_MUL_2); // 31.25kHz PWM freq
-  boardA.setOCShutdown(OC_SD_ENABLE);
-  // board.setOCShutdown(OC_SD_DISABLE); // don't shutdown on OC. Commenting out because we DEFINITELY want to shut down on OC
-  boardA.setVoltageComp(VS_COMP_DISABLE); // don't compensate for motor V
-  Serial.print(".");
-  boardA.setSwitchMode(SW_USER);    // Switch is not hard stop
-  boardA.setOscMode(EXT_16MHZ_OSCOUT_INVERT); // use OSCOUT line
-  boardA.setAccKVAL(KVAL_motor);           // We'll tinker with these later, if needed.
-  boardA.setDecKVAL(KVAL_motor);
-  boardA.setRunKVAL(KVAL_motor);
-  boardA.setHoldKVAL(KVAL_motor);           // This controls the holding current; keep it low.
-  Serial.println(".done!");
+  setBoardParams(boardA);
 
   // Set operational parameters for Board B
   Serial.print("Configuring Board B.");
